@@ -26,7 +26,7 @@ object SendMessageAndWaitForResponsAlpakka {
       .withRoutingKey(pubRoutingKey)
 
     val properties = new BasicProperties.Builder()
-      .correlationId(correlationId).contentType("Event")
+      .correlationId(correlationId).contentType(messageType)
       .replyTo(replyQueueName)
       .build()
 
@@ -56,8 +56,9 @@ object SendMessageAndWaitForResponsAlpakka {
         .map { envelope =>
           val routingKey = envelope.envelope.getRoutingKey
           val response = envelope.bytes.utf8String
+          val contentType = envelope.properties.getContentType()
           println("\n\nSendTakeWait")
-          println(s"Received response for correlationId: $correlationId - message: $response RK - $routingKey")
+          println(s"Received response for messageType : $contentType -  correlationId: $correlationId - message: $response RK - $routingKey")
           println("\n\n")
           responseHandler(response, routingKey)
         }

@@ -37,7 +37,9 @@ class StudentRepository(implicit ec: ExecutionContext) {
           grodanstvo = doc.getString("grodanstvo"),
           gender = Option(doc.getList("gender", classOf[String])).map(_.asScala.toList).getOrElse(List.empty),
           english_language_level = doc.getString("english_language_level"),
-          specialization = doc.getString("specialization")
+          specialization = doc.getString("specialization") ,
+          disciplineId = Option(Option(doc.getList("disciplinesId", classOf[String])).map(_.asScala.toList).getOrElse(List.empty)),
+          disciplines = None
         )
       }.toList).getOrElse(List.empty)
     }
@@ -65,7 +67,9 @@ class StudentRepository(implicit ec: ExecutionContext) {
             grodanstvo = doc.getString("grodanstvo"),
             gender = Option(doc.getList("gender", classOf[String])).map(_.asScala.toList).getOrElse(List.empty),
             english_language_level = doc.getString("english_language_level"),
-            specialization = doc.getString("specialization")
+            specialization = doc.getString("specialization"),
+            disciplineId = Option(Option(doc.getList("disciplinesId", classOf[String])).map(_.asScala.toList).getOrElse(List.empty)),
+            disciplines = None
           )
         )
       case None => None
@@ -99,7 +103,9 @@ class StudentRepository(implicit ec: ExecutionContext) {
               grodanstvo = doc.getString("grodanstvo"),
               gender = Option(doc.getList("gender", classOf[String])).map(_.asScala.toList).getOrElse(List.empty),
               english_language_level = doc.getString("english_language_level"),
-              specialization = doc.getString("specialization")
+              specialization = doc.getString("specialization"),
+              disciplineId = Option(Option(doc.getList("disciplinesId", classOf[String])).map(_.asScala.toList).getOrElse(List.empty)),
+              disciplines = None
             )
           }.toList
         }
@@ -123,6 +129,7 @@ class StudentRepository(implicit ec: ExecutionContext) {
       "group" -> BsonString(student.group),
       "ball_ent" -> BsonInt32(student.ball_ent),
       "status" -> BsonArray(student.status.map(BsonString(_))),
+      "disciplinesId" -> BsonArray(student.disciplineId.getOrElse(List.empty).map(BsonString.apply)),
       "grodanstvo" -> BsonString(student.grodanstvo),
       "gender" -> BsonArray(student.gender.map(BsonString(_))),
       "english_language_level" -> BsonString(student.english_language_level),
@@ -154,6 +161,7 @@ class StudentRepository(implicit ec: ExecutionContext) {
         "group" -> BsonString(updatedStudent.group),
         "ball_ent" -> BsonInt32(updatedStudent.ball_ent),
         "status" -> BsonArray(updatedStudent.status.map(BsonString(_))),
+        "disciplinesId" -> BsonArray(updatedStudent.disciplineId.getOrElse(List.empty).map(BsonString(_))),
         "grodanstvo" -> BsonString(updatedStudent.grodanstvo),
         "gender" -> BsonArray(updatedStudent.gender.map(BsonString(_))),
         "english_language_level" -> BsonString(updatedStudent.english_language_level),

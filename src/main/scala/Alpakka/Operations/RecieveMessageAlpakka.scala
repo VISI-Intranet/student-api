@@ -26,8 +26,9 @@ object RecieveMessageAlpakka {
         val message = new String(committableReadResult.message.bytes.toArray, "UTF-8")
         val routingKey = committableReadResult.message.envelope.getRoutingKey
         val correlationId = committableReadResult.message.properties.getCorrelationId
+        val contentTypeOption = committableReadResult.message.properties.getContentType
         println("\n\nrecieve")
-        println(s"MessageType:$messageType  Body: $message, CorrelationId: $correlationId, Routing Key: $routingKey $queueName")
+        println(s"MessageType:$contentTypeOption  Body: $message, CorrelationId: $correlationId, Routing Key: $routingKey $queueName")
         println("recieve\n\n")
         handler(message, routingKey)
         committableReadResult.ack().map(_ => ())

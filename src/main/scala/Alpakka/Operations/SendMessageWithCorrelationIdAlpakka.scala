@@ -31,7 +31,10 @@ object SendMessageWithCorrelationIdAlpakka {
 
     val modifiedMessage = handler(message , routingKey)
 
-    val properties = new BasicProperties.Builder().correlationId(correlationId).build()
+    val properties = new BasicProperties.Builder()
+      .correlationId(correlationId)
+      .contentType(messageType)
+      .build()
 
     val amqpSink = AmqpSink.apply(amqpWriteSettings)
       .contramap[WriteMessage](writeMessage => writeMessage.withProperties(properties))

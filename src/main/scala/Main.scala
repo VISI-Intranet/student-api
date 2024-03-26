@@ -6,6 +6,7 @@ import Routing._
 import Model._
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Directives._
+import akka.stream.alpakka.amqp.{AmqpConnectionProvider, AmqpLocalConnectionProvider}
 
 import scala.concurrent.{ExecutionContextExecutor, Future}
 import java.util.Date
@@ -15,6 +16,7 @@ object Main extends App {
   implicit val system: ActorSystem = ActorSystem("MyAkkaHttpServer")
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val executionContext: ExecutionContextExecutor = system.dispatcher
+  implicit val amqpConnectionProvider: AmqpConnectionProvider = AmqpLocalConnectionProvider
 
   // Подключение к базе данных
   val client = MongoClient()

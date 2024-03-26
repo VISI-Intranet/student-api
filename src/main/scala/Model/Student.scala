@@ -1,4 +1,5 @@
 package Model
+
 case class Student(
                     studentId: Int,
                     name:String,
@@ -12,8 +13,10 @@ case class Student(
                     group:String,
                     ball_ent:Int,
                     status: List[String],
+                    disciplineId: Option[List[String]],
                     grodanstvo:String,
                      gender:List[String],
                     english_language_level:String,
                     specialization: String,
+                    disciplines: Option[List[String]],
                   )
