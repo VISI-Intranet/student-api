@@ -1,3 +1,5 @@
+import Alpakka.Operations.RecieveMessageAlpakka
+import Alpakka.RabbitMQModel.RabbitMQModel
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import org.mongodb.scala.MongoClient
@@ -34,12 +36,15 @@ object Main extends App {
   val specialityRoutes = new SpecialityRoutes()
   val teachersRoutes = new TeachersRoutes()
 
+  val notificationEventToTeacherMQModel: RabbitMQModel = RabbitMQModel("EventPublisher", "", "")
+
+  RecieveMessageAlpakka.subscription(notificationEventToTeacherMQModel,amqpConnectionProvider)
 
   // Старт сервера
   private val bindingFuture = Http().bindAndHandle(
     studentRoutes.route  ~ cafedraRoutes.route ~ faculityRoutes.route ~ specialityRoutes.route ~ teachersRoutes.route, // Используйте '~' для объединения роутов
     "localhost",
-    8081
+    8082
   )
 
   println(s"Server online at http://localhost:8081/")

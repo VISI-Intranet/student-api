@@ -8,12 +8,12 @@ object RecieveHandler {
       case "univer.teacher-api.studentsByIdGet" =>
         // Обработка для ключа "key1"
         println(s"Hello fucking shit")
-      case "key2" =>
+      case "univer.event-api.notficationEventForStudentPost" =>
         // Обработка для ключа "key2"
-        println(s"Received message for key2: $message")
+        println(message)
       case _ =>
         // Обработка для всех остальных случаев
-        println(s"Received message with unknown routing key: $routingKey")
+        println(s"#")
     }
 
   }
