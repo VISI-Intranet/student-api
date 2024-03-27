@@ -37,8 +37,10 @@ object Main extends App {
   val teachersRoutes = new TeachersRoutes()
 
   val notificationEventToTeacherMQModel: RabbitMQModel = RabbitMQModel("EventPublisher", "", "")
+  val subStudentToDebtMQModel: RabbitMQModel = RabbitMQModel("DebtPublisher", "", "")
 
   RecieveMessageAlpakka.subscription(notificationEventToTeacherMQModel,amqpConnectionProvider)
+  RecieveMessageAlpakka.subscription(subStudentToDebtMQModel,amqpConnectionProvider)
 
   // Старт сервера
   private val bindingFuture = Http().bindAndHandle(
